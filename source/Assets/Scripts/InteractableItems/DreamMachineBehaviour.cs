@@ -19,6 +19,8 @@ public class DreamMachineBehaviour : InteractableItemBehaviour
         explosionEffect.transform.position = transform.position;
         //play it
 
+        SaveManager.currentProgress.machineExplosionsTriggered++;
+
         // trigger events
         GameEvents.AudioEvents.TriggerSFX.SafeInvoke("Explosion", false, false);
         GameEvents.AudioEvents.TriggerSFX.SafeInvoke("Spark", false, false);

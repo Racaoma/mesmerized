@@ -22,6 +22,7 @@ public class DogLevelLeverBehaviour : InteractableItemBehaviour
         transform.Rotate(0, 0, 180);
         GameEvents.LevelEvents.UsedInteractable.SafeInvoke();
         GameEvents.AudioEvents.TriggerSFX.SafeInvoke(sfxtrigger, false, false);
+        SaveManager.currentProgress.gatesPuzzleLeverUses++;
         door.Toggle();
     }
 }

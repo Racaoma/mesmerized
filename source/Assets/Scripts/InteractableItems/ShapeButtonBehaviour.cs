@@ -25,6 +25,7 @@ namespace prototypeRobot
             {
                 _animator.SetBool("isPressed", true);
                 isRight = GetComponentInParent<ShapeControllerBehaviour>().CheckShapePosition(shape, GetComponentInChildren<MeshRenderer>());
+                SaveManager.currentProgress.buttonPuzzleButtonUses++;
             }
         }
 

@@ -36,6 +36,7 @@ namespace prototypeRobot
                 _animator.SetBool("isPressed", true);
                 GetComponentInChildren<MeshRenderer>().material = colorMaterial;
                 isRight = GetComponentInParent<ColorControllerBehaviour>().CheckColorPosition(color, this);
+                SaveManager.currentProgress.buttonPuzzleButtonUses++;
             }
         }
 

@@ -25,6 +25,10 @@ public class PatientOnDreamBehaviour : InteractableItemBehaviour
             StartCoroutine(WaitForSpacialItemGoToPacient(specialCompleteItem));
 
         }
+        else
+        {
+            SaveManager.GetLevelProgress(levelName).attemptedToTalk = true;
+        }
     }
 
     private IEnumerator WaitForSpacialItemGoToPacient(SpecialCompleteItem specialCompleteItem)

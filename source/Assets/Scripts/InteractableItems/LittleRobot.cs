@@ -23,6 +23,7 @@ public class LittleRobot : InteractableItemBehaviour
             GameEvents.AudioEvents.TriggerSFX.SafeInvoke("Explosion", false, false);
             GameEvents.AudioEvents.TriggerSFX.SafeInvoke("RobotDistress", false, false);
             GameEvents.Interactables.LittleRobot.SafeInvoke();
+            SaveManager.currentProgress.machineExplosionsTriggered++;
             Destroy(explosionEffect, 10f);
         }
     }
