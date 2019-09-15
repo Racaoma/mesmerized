@@ -14,6 +14,11 @@ namespace Biocrowds.Core
 {
     public class Agent : MonoBehaviour
     {
+        //New Vars
+        private float _rangeRandomGoal = 1f;
+        public Vector3 agentOffset;
+        public int pressurePlateIndex;
+
         private const float UPDATE_NAVMESH_INTERVAL = 1.0f;
 
         //agent radius
@@ -25,7 +30,7 @@ namespace Biocrowds.Core
         private float _maxSpeed = 1.5f;
 
         //goal
-        public GameObject Goal;
+        private PressurePlate Goal;
 
         //list with all auxins in his personal space
         private List<Auxin> _auxins = new List<Auxin>();
@@ -72,12 +77,22 @@ namespace Biocrowds.Core
         {
             _navMeshPath = new NavMeshPath();
 
-            _goalPosition = Goal.transform.position;
-            _dirAgentGoal = _goalPosition - transform.position;
-
             //cache world info
             _totalX = Mathf.FloorToInt(_world.Dimension.x / 2.0f) - 1;
             _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
+        }
+
+        public void SetGoal(PressurePlate goal, int goalPressurePlateIndex)
+        {
+            Goal = goal;
+            _goalPosition = Goal.GetRandomPositionInside(_rangeRandomGoal) + agentOffset;
+            _dirAgentGoal = _goalPosition - transform.position;
+            pressurePlateIndex = goalPressurePlateIndex;
+        }
+
+        public int GetPressurePlateIndex()
+        {
+            return pressurePlateIndex;
         }
 
         void Update()
@@ -93,7 +108,7 @@ namespace Biocrowds.Core
                 _elapsedTime = 0.0f;
 
                 //calculate agent path
-               bool foundPath = NavMesh.CalculatePath(transform.position, Goal.transform.position, NavMesh.AllAreas, _navMeshPath);
+               bool foundPath = NavMesh.CalculatePath(transform.position, _goalPosition, NavMesh.AllAreas, _navMeshPath);
 
                 //update its goal if path is found
                 if (foundPath)

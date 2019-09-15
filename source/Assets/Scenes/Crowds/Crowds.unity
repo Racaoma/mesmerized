@@ -506,6 +506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70751458}
   - component: {fileID: 70751459}
+  - component: {fileID: 70751460}
   m_Layer: 9
   m_Name: Pressure Plate (Door 1)
   m_TagString: Untagged
@@ -541,6 +542,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2, z: 0.3}
   m_Center: {x: -0.15, y: -0.4, z: 0.1}
+--- !u!114 &70751460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70751457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0fc47e43331f46a2cdedacd5e7540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &103117370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2871,7 +2884,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297370568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 15, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 197304860}
@@ -3143,6 +3156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 337746306}
   - component: {fileID: 337746307}
+  - component: {fileID: 337746308}
   m_Layer: 9
   m_Name: Pressure Plate (Door 4)
   m_TagString: Untagged
@@ -3178,6 +3192,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2, z: 0.3}
   m_Center: {x: -0.15, y: -0.4, z: 0.1}
+--- !u!114 &337746308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337746305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0fc47e43331f46a2cdedacd5e7540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &338056546
 GameObject:
   m_ObjectHideFlags: 0
@@ -3769,7 +3795,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4569229534654424, guid: 3bfc46f955c1b6442a2fec350cd939e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569229534654424, guid: 3bfc46f955c1b6442a2fec350cd939e3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3777,7 +3803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4569229534654424, guid: 3bfc46f955c1b6442a2fec350cd939e3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4569229534654424, guid: 3bfc46f955c1b6442a2fec350cd939e3, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5179,6 +5205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 627008103}
   - component: {fileID: 627008104}
+  - component: {fileID: 627008105}
   m_Layer: 9
   m_Name: Pressure Plate (Door 0)
   m_TagString: Untagged
@@ -5214,6 +5241,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2, z: 0.3}
   m_Center: {x: -0.15, y: -0.4, z: 0.1}
+--- !u!114 &627008105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627008102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0fc47e43331f46a2cdedacd5e7540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &641926840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7322,7 +7361,7 @@ PrefabInstance:
     - target: {fileID: 4300158490982185806, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4300158490982185806, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
         type: 3}
@@ -7332,7 +7371,7 @@ PrefabInstance:
     - target: {fileID: 4300158490982185806, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 4300158490982185806, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
         type: 3}
@@ -8863,6 +8902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 931183512}
   - component: {fileID: 931183513}
+  - component: {fileID: 931183514}
   m_Layer: 9
   m_Name: Pressure Plate (Door 5)
   m_TagString: Untagged
@@ -8898,6 +8938,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2, z: 0.3}
   m_Center: {x: -0.15, y: -0.4, z: 0.1}
+--- !u!114 &931183514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931183511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0fc47e43331f46a2cdedacd5e7540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &933649112
 GameObject:
   m_ObjectHideFlags: 0
@@ -10625,6 +10677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1152004343}
   - component: {fileID: 1152004344}
+  - component: {fileID: 1152004345}
   m_Layer: 9
   m_Name: Pressure Plate (Door 2)
   m_TagString: Untagged
@@ -10660,6 +10713,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2, z: 0.3}
   m_Center: {x: -0.15, y: -0.4, z: 0.1}
+--- !u!114 &1152004345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152004342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0fc47e43331f46a2cdedacd5e7540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1157444750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12964,6 +13029,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
+      propertyPath: pressurePlates.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
       propertyPath: _terrain
       value: 
       objectReference: {fileID: 1653936138}
@@ -12980,8 +13050,43 @@ PrefabInstance:
     - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _maxAgents
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: pressurePlates.Array.data[0]
+      value: 
+      objectReference: {fileID: 627008105}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: pressurePlates.Array.data[1]
+      value: 
+      objectReference: {fileID: 70751460}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: pressurePlates.Array.data[2]
+      value: 
+      objectReference: {fileID: 2112924800}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: pressurePlates.Array.data[3]
+      value: 
+      objectReference: {fileID: 931183514}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: pressurePlates.Array.data[4]
+      value: 
+      objectReference: {fileID: 337746308}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: pressurePlates.Array.data[5]
+      value: 
+      objectReference: {fileID: 1152004345}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 134c3d7ad423ae840acb9de2a7eb8dee, type: 3}
 --- !u!1 &1372764036
@@ -16590,7 +16695,7 @@ PrefabInstance:
     - target: {fileID: 3495668208182603050, guid: 12eabdcbcc9eeed4c878178af95ffa76,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.995
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3495668208182603050, guid: 12eabdcbcc9eeed4c878178af95ffa76,
         type: 3}
@@ -16600,7 +16705,7 @@ PrefabInstance:
     - target: {fileID: 3495668208182603050, guid: 12eabdcbcc9eeed4c878178af95ffa76,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3495668208182603050, guid: 12eabdcbcc9eeed4c878178af95ffa76,
         type: 3}
@@ -19964,6 +20069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2112924798}
   - component: {fileID: 2112924799}
+  - component: {fileID: 2112924800}
   m_Layer: 9
   m_Name: Pressure Plate (Door 3)
   m_TagString: Untagged
@@ -19999,6 +20105,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2, z: 0.3}
   m_Center: {x: -0.15, y: -0.4, z: 0.1}
+--- !u!114 &2112924800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112924797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b0fc47e43331f46a2cdedacd5e7540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2123505039
 GameObject:
   m_ObjectHideFlags: 0
