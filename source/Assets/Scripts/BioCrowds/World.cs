@@ -49,11 +49,31 @@ namespace Biocrowds.Core
 
         //number of agents in the scene
         [SerializeField]
-        private int _maxAgents = 30;
+        private int _maxAgents_Security = 6;
+        [SerializeField]
+        private int _maxAgents_Doctor = 6;
+        [SerializeField]
+        private int _maxAgents_Operator = 6;
+        [SerializeField]
+        private int _maxAgents_Deliveryman = 6;
+
+        //Behaviors
+        private const float _timeSpentNearDogThreshold = 3f;
+        private const float _timeToCompleteAllLevelsThreshold = 2000f;
+        private const float _timeSpentNearClosedDoorThreshold = 5f;
+        private const int _parLeverUsesThreshold = 5;
+        private const int _parButtonUsesThreshold = 8;
+        private const int _machineExplosionsTriggeredThreshold = 5;
 
         //agent prefab
         [SerializeField]
-        private Agent _agentPrefab;
+        private Agent _agentPrefab_Security;
+        [SerializeField]
+        private Agent _agentPrefab_Doctor;
+        [SerializeField]
+        private Agent _agentPrefab_Operator;
+        [SerializeField]
+        private Agent _agentPrefab_Deliveryman;
 
         [SerializeField]
         private Cell _cellPrefab;
@@ -212,14 +232,24 @@ namespace Biocrowds.Core
         {
             Transform agentPool = new GameObject("Agents").transform;
 
-            //instantiate agents
-            for (int i = 0; i < _maxAgents; i++)
+            //Instantiate Agents
+            for (int i = 0; i < _maxAgents_Deliveryman; i++)
             {
                 int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
-                Agent newAgent = Instantiate(_agentPrefab, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                Agent newAgent = Instantiate(_agentPrefab_Deliveryman, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
-                newAgent.name = "Agent [" + i + "]";  //name
+                newAgent.dogFear = true;
+                newAgent.attractedToComputer = false;
+                newAgent.attractedToComputer = false;
+                newAgent.attractedToMachine = false;
+                newAgent.attractedToLamp = false;
+                newAgent.increasedChanceToStopWithOtherAgents = false;
+                newAgent.speedMultiplier = 1f;
+                newAgent.baseChanceToStop = 0.5f;
+                newAgent.maxDelayToWalk = 2f;
+
+                newAgent.name = "Deliveryman Agent [" + i + "]";  //name
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
 
@@ -229,6 +259,144 @@ namespace Biocrowds.Core
 
                 _agents.Add(newAgent);
             }
+
+            for (int i = 0; i < _maxAgents_Security; i++)
+            {
+                int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
+                Agent newAgent = Instantiate(_agentPrefab_Security, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                newAgent.transform.position += newAgent.agentOffset;
+
+                newAgent.dogFear = false;
+                newAgent.attractedToComputer = false;
+                newAgent.attractedToComputer = false;
+                newAgent.attractedToMachine = false;
+                newAgent.attractedToLamp = true;
+                newAgent.increasedChanceToStopWithOtherAgents = false;
+                newAgent.speedMultiplier = 1f;
+                newAgent.baseChanceToStop = 0.5f;
+                newAgent.maxDelayToWalk = 2f;
+
+                newAgent.name = "Security Agent [" + i + "]";  //name
+                newAgent.CurrentCell = _cells[i];  //agent cell
+                newAgent.agentRadius = AGENT_RADIUS;  //agent radius
+
+                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
+                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.World = this;
+
+                _agents.Add(newAgent);
+            }
+
+            for (int i = 0; i < _maxAgents_Operator; i++)
+            {
+                int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
+                Agent newAgent = Instantiate(_agentPrefab_Operator, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                newAgent.transform.position += newAgent.agentOffset;
+
+                newAgent.dogFear = false;
+                newAgent.attractedToComputer = false;
+                newAgent.attractedToComputer = true;
+                newAgent.attractedToMachine = true;
+                newAgent.attractedToLamp = false;
+                newAgent.increasedChanceToStopWithOtherAgents = false;
+                newAgent.speedMultiplier = 1f;
+                newAgent.baseChanceToStop = 0.5f;
+                newAgent.maxDelayToWalk = 2f;
+
+                newAgent.name = "Operator Agent [" + i + "]";  //name
+                newAgent.CurrentCell = _cells[i];  //agent cell
+                newAgent.agentRadius = AGENT_RADIUS;  //agent radius
+
+                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
+                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.World = this;
+
+                _agents.Add(newAgent);
+            }
+
+            for (int i = 0; i < _maxAgents_Doctor; i++)
+            {
+                int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
+                Agent newAgent = Instantiate(_agentPrefab_Doctor, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                newAgent.transform.position += newAgent.agentOffset;
+
+                SetDoctorBehaviors(ref newAgent);
+
+                newAgent.name = "Doctor Agent [" + i + "]";  //name
+                newAgent.CurrentCell = _cells[i];  //agent cell
+                newAgent.agentRadius = AGENT_RADIUS;  //agent radius
+
+                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
+                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.World = this;
+
+                _agents.Add(newAgent);
+            }
+        }
+
+        private void SetDoctorBehaviors(ref Agent newAgent)
+        {
+            if (SaveManager.currentProgress.timeSpentNearDog <= _timeSpentNearDogThreshold)
+            {
+                newAgent.dogFear = false;
+            }
+            else
+            {
+                newAgent.dogFear = true;
+            }
+
+            if (SaveManager.currentProgress.timeToCompleteAllLevels <= _timeToCompleteAllLevelsThreshold)
+            {
+                newAgent.speedMultiplier = 2f;
+            }
+            else if(SaveManager.currentProgress.timeToCompleteAllLevels <= _timeToCompleteAllLevelsThreshold * 2f)
+            {
+                newAgent.speedMultiplier = 1f;
+            }
+            else
+            {
+                newAgent.speedMultiplier = 0.5f;
+            }
+
+            if (SaveManager.currentProgress.timeSpentNearClosedDoor <= _timeSpentNearClosedDoorThreshold)
+            {
+                newAgent.baseChanceToStop = 0.5f;
+            }
+            else
+            {
+                newAgent.baseChanceToStop = 0.65f;
+            }
+
+            if(SaveManager.currentProgress.gatesPuzzleLeverUses <= _parLeverUsesThreshold)
+            {
+                newAgent.maxDelayToWalk = 2f;
+            }
+            else
+            {
+                newAgent.maxDelayToWalk = 1f;
+            }
+
+            if (SaveManager.currentProgress.buttonPuzzleButtonUses <= _parButtonUsesThreshold)
+            {
+                newAgent.attractedToComputer = true;
+                newAgent.fearComputer = false;
+            }
+            else
+            {
+                newAgent.attractedToComputer = false;
+                newAgent.fearComputer = false;
+            }
+
+            if (SaveManager.currentProgress.machineExplosionsTriggered <= _machineExplosionsTriggeredThreshold)
+            {
+                newAgent.attractedToMachine = true;
+            }
+            else
+            {
+                newAgent.attractedToMachine = false;
+            }
+
+            newAgent.attractedToLamp = false;
         }
 
         private void SetAgentsGoalsToNextWaypoint()
@@ -302,7 +470,8 @@ namespace Biocrowds.Core
             3 - calculate speed vector 
             4 - step
             */
-            for (int i = 0; i < _maxAgents; i++)
+
+            for (int i = 0; i < _agents.Count; i++)
             {
                 //find the agent
                 List<Auxin> agentAuxins = _agents[i].Auxins;

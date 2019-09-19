@@ -71,7 +71,16 @@ namespace Biocrowds.Core
         private Vector3 _rotation; //orientation vector (movement)
         private Vector3 _goalPosition; //goal position
         private Vector3 _dirAgentGoal; //diff between goal and agent
-      
+
+        //Patterns
+        public bool dogFear = false;
+        public bool attractedToComputer = false;
+        public bool attractedToMachine = false;
+        public bool attractedToLamp = false;
+        public bool fearComputer = false;
+        public float speedMultiplier = 1f;
+        public float baseChanceToStop = 0.5f;
+        public float maxDelayToWalk = 2f;
 
         void Start()
         {
@@ -84,6 +93,18 @@ namespace Biocrowds.Core
 
         public void SetGoal(PressurePlate goal, int goalPressurePlateIndex)
         {
+            StartCoroutine(ChangeGoalCoroutine(goal, goalPressurePlateIndex));
+        }
+
+        private IEnumerator ChangeGoalCoroutine(PressurePlate goal, int goalPressurePlateIndex)
+        {
+            float timer = Random.Range(0f, maxDelayToWalk);
+            while(timer > 0f)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+
             Goal = goal;
             _goalPosition = Goal.GetRandomPositionInside(_rangeRandomGoal) + agentOffset;
             _dirAgentGoal = _goalPosition - transform.position;

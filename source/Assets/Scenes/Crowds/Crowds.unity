@@ -13112,6 +13112,30 @@ PrefabInstance:
       propertyPath: pressurePlates.Array.data[5]
       value: 
       objectReference: {fileID: 1152004345}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _agentPrefab_Deliveryman
+      value: 
+      objectReference: {fileID: 114000011849109640, guid: d61277b35221a0b4d8eb11a5cef79410,
+        type: 3}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _agentPrefab_Doctor
+      value: 
+      objectReference: {fileID: 114000011849109640, guid: 7a8ade0ab3e2127418a65605213cdced,
+        type: 3}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _agentPrefab_Operator
+      value: 
+      objectReference: {fileID: 114000011849109640, guid: 600f0b9d2e6f00a4a8d62a01fb36a2af,
+        type: 3}
+    - target: {fileID: 114285194632179770, guid: 134c3d7ad423ae840acb9de2a7eb8dee,
+        type: 3}
+      propertyPath: _agentPrefab_Security
+      value: 
+      objectReference: {fileID: 114000011849109640, guid: 2b7571926431f494e995f23f98eb3348,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 134c3d7ad423ae840acb9de2a7eb8dee, type: 3}
 --- !u!1 &1372764036
