@@ -17,7 +17,6 @@ namespace Biocrowds.Core
         //New Vars
         private float _rangeRandomGoal = 1f;
         public Vector3 agentOffset;
-        public int pressurePlateIndex;
 
         private const float UPDATE_NAVMESH_INTERVAL = 1.0f;
 
@@ -72,6 +71,12 @@ namespace Biocrowds.Core
         private Vector3 _goalPosition; //goal position
         private Vector3 _dirAgentGoal; //diff between goal and agent
 
+        //Chance to stop
+        public float baseChanceToStop = 0.5f;
+        public float extraChanceToStop = 0f;
+
+        private const float extraChanceToStopAfterNotStopping = 0.5f;
+
         //Patterns
         public bool dogFear = false;
         public bool attractedToComputer = false;
@@ -79,7 +84,6 @@ namespace Biocrowds.Core
         public bool attractedToLamp = false;
         public bool fearComputer = false;
         public float speedMultiplier = 1f;
-        public float baseChanceToStop = 0.5f;
         public float maxDelayToWalk = 2f;
 
         void Start()
@@ -91,12 +95,29 @@ namespace Biocrowds.Core
             _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
         }
 
-        public void SetGoal(PressurePlate goal, int goalPressurePlateIndex)
+        public void CheckStop(PressurePlate pressurePlate)
         {
-            StartCoroutine(ChangeGoalCoroutine(goal, goalPressurePlateIndex));
+            if(pressurePlate == Goal)
+            {
+                if (Random.Range(extraChanceToStop, 1f) <= baseChanceToStop)
+                {
+                    SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
+                    extraChanceToStop += extraChanceToStopAfterNotStopping;
+                }
+            }
         }
 
-        private IEnumerator ChangeGoalCoroutine(PressurePlate goal, int goalPressurePlateIndex)
+        public void SetNextGoal(PressurePlate pressurePlate)
+        {
+            StartCoroutine(ChangeGoalCoroutine(pressurePlate));
+        }
+
+        public PressurePlate GetCurrentPressurePlate()
+        {
+            return Goal;
+        }
+
+        private IEnumerator ChangeGoalCoroutine(PressurePlate pressurePlate)
         {
             float timer = Random.Range(0f, maxDelayToWalk);
             while(timer > 0f)
@@ -105,15 +126,9 @@ namespace Biocrowds.Core
                 yield return null;
             }
 
-            Goal = goal;
+            Goal = pressurePlate;
             _goalPosition = Goal.GetRandomPositionInside(_rangeRandomGoal) + agentOffset;
             _dirAgentGoal = _goalPosition - transform.position;
-            pressurePlateIndex = goalPressurePlateIndex;
-        }
-
-        public int GetPressurePlateIndex()
-        {
-            return pressurePlateIndex;
         }
 
         void Update()

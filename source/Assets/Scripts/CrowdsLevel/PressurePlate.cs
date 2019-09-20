@@ -9,7 +9,7 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private Material _greenMaterial;
     [SerializeField] private Material _redMaterial;
     [SerializeField] private GameObject _line;
-    [SerializeField] private GameObject _buttonFrame;
+    [SerializeField] private Animator _doorAnimator;
 
     private MeshRenderer _meshRenderer;
     private int _contacts = 0;
@@ -29,6 +29,12 @@ public class PressurePlate : MonoBehaviour
     {
         _contacts++;
         UpdateMaterial(isEmpty = _contacts == 0);
+
+        Biocrowds.Core.Agent agent = other.GetComponent<Biocrowds.Core.Agent>();
+        if(agent != null)
+        {
+            agent.CheckStop(this);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -42,7 +48,6 @@ public class PressurePlate : MonoBehaviour
         if(isEmpty)
         {
             _meshRenderer.material = _greenMaterial;
-            _buttonFrame.GetComponentInChildren<MeshRenderer>().material = _greenMaterial;
 
             for (int i = 0; i < _line.transform.childCount; i++)
             {
@@ -52,12 +57,16 @@ public class PressurePlate : MonoBehaviour
         else
         {
             _meshRenderer.material = _redMaterial;
-            _buttonFrame.GetComponentInChildren<MeshRenderer>().material = _redMaterial;
 
             for (int i = 0; i < _line.transform.childCount; i++)
             {
                 _line.transform.GetChild(i).GetComponentInChildren<MeshRenderer>().material = _redMaterial;
             }
         }
+    }
+
+    public void SetDoorState(bool state)
+    {
+        _doorAnimator.SetBool("Open", state);
     }
 }

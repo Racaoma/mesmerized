@@ -13,7 +13,7 @@ using UnityEngine.AI;
 
 namespace Biocrowds.Core
 {
-    public class World : MonoBehaviour
+    public class World : ProperSingleton<World>
     {
         public enum MovementFlowEnum
         {
@@ -244,7 +244,6 @@ namespace Biocrowds.Core
                 newAgent.attractedToComputer = false;
                 newAgent.attractedToMachine = false;
                 newAgent.attractedToLamp = false;
-                newAgent.increasedChanceToStopWithOtherAgents = false;
                 newAgent.speedMultiplier = 1f;
                 newAgent.baseChanceToStop = 0.5f;
                 newAgent.maxDelayToWalk = 2f;
@@ -253,8 +252,7 @@ namespace Biocrowds.Core
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
 
-                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
-                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.SetNextGoal(pressurePlates[pressurePlateIndex]);  //agent goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
@@ -271,7 +269,6 @@ namespace Biocrowds.Core
                 newAgent.attractedToComputer = false;
                 newAgent.attractedToMachine = false;
                 newAgent.attractedToLamp = true;
-                newAgent.increasedChanceToStopWithOtherAgents = false;
                 newAgent.speedMultiplier = 1f;
                 newAgent.baseChanceToStop = 0.5f;
                 newAgent.maxDelayToWalk = 2f;
@@ -280,8 +277,7 @@ namespace Biocrowds.Core
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
 
-                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
-                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.SetNextGoal(pressurePlates[pressurePlateIndex]);  //agent goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
@@ -298,7 +294,6 @@ namespace Biocrowds.Core
                 newAgent.attractedToComputer = true;
                 newAgent.attractedToMachine = true;
                 newAgent.attractedToLamp = false;
-                newAgent.increasedChanceToStopWithOtherAgents = false;
                 newAgent.speedMultiplier = 1f;
                 newAgent.baseChanceToStop = 0.5f;
                 newAgent.maxDelayToWalk = 2f;
@@ -307,8 +302,7 @@ namespace Biocrowds.Core
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
 
-                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
-                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.SetNextGoal(pressurePlates[pressurePlateIndex]);  //agent goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
@@ -326,8 +320,7 @@ namespace Biocrowds.Core
                 newAgent.CurrentCell = _cells[i];  //agent cell
                 newAgent.agentRadius = AGENT_RADIUS;  //agent radius
 
-                int indexGoal = (pressurePlateIndex + 1) % pressurePlates.Length;
-                newAgent.SetGoal(pressurePlates[indexGoal], indexGoal);  //agent goal
+                newAgent.SetNextGoal(pressurePlates[pressurePlateIndex]);  //agent goal
                 newAgent.World = this;
 
                 _agents.Add(newAgent);
@@ -399,32 +392,34 @@ namespace Biocrowds.Core
             newAgent.attractedToLamp = false;
         }
 
-        private void SetAgentsGoalsToNextWaypoint()
+        public PressurePlate GetNextPressurePlate(PressurePlate currentPressurePlate)
         {
-            for(int i = 0; i < _agents.Count; i++)
+            int i = 0;
+            for (; i < pressurePlates.Length; i++)
             {
-                if(_agents[i] != null)
+                if(pressurePlates[i] == currentPressurePlate)
                 {
-                    int nextGoalIndex = _agents[i].GetPressurePlateIndex();
-                    nextGoalIndex = (nextGoalIndex + 1) % pressurePlates.Length;
-                    _agents[i].SetGoal(pressurePlates[nextGoalIndex], nextGoalIndex);
+                    break;
                 }
             }
-        }
 
-        private void SetAgentsGoalsToPreviousWaypoint()
-        {
-            for (int i = 0; i < _agents.Count; i++)
+            if(movementFlow == MovementFlowEnum.Clockwise)
             {
-                if (_agents[i] != null)
+                return pressurePlates[(i + 1) % pressurePlates.Length];
+            }
+            else if(movementFlow == MovementFlowEnum.Counterclockwise)
+            {
+                i--;
+                if(i < 0)
                 {
-                    int nextGoalIndex = _agents[i].GetPressurePlateIndex() - 1;
-                    if (nextGoalIndex < 0)
-                    {
-                        nextGoalIndex = pressurePlates.Length - 1;
-                    }
-                    _agents[i].SetGoal(pressurePlates[nextGoalIndex], nextGoalIndex);
+                    i = pressurePlates.Length - 1;
                 }
+
+                return pressurePlates[i];
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -438,13 +433,10 @@ namespace Biocrowds.Core
 
             if (currentRoundTimer <= 0f)
             {
-                if(movementFlow == MovementFlowEnum.Clockwise)
+                for(int i = 0; i < _agents.Count; i++)
                 {
-                    SetAgentsGoalsToNextWaypoint();
-                }
-                else
-                {
-                    SetAgentsGoalsToPreviousWaypoint();
+                    _agents[i].extraChanceToStop = 0f;
+                    _agents[i].SetNextGoal(GetNextPressurePlate(_agents[i].GetCurrentPressurePlate()));
                 }
 
                 currentRoundTimer = roundTime;
