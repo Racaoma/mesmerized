@@ -30,6 +30,7 @@ namespace Biocrowds.Core
 
         //goal
         private PressurePlate Goal;
+        private bool _isLeavingLevel = false;
 
         //list with all auxins in his personal space
         private List<Auxin> _auxins = new List<Auxin>();
@@ -95,6 +96,11 @@ namespace Biocrowds.Core
             _totalZ = Mathf.FloorToInt(_world.Dimension.y / 2.0f);
         }
 
+        private void OnDestroy()
+        {
+            World.Instance.RemoveAgentFromList(this);
+        }
+
         public void CheckStop(PressurePlate pressurePlate)
         {
             if(pressurePlate == Goal)
@@ -109,7 +115,14 @@ namespace Biocrowds.Core
 
         public void SetNextGoal(PressurePlate pressurePlate)
         {
+            _isLeavingLevel = false;
             StartCoroutine(ChangeGoalCoroutine(pressurePlate));
+        }
+
+        public void SetExitGoal(Vector3 position)
+        {
+            _isLeavingLevel = true;
+            _goalPosition = position;
         }
 
         public PressurePlate GetCurrentPressurePlate()
@@ -157,6 +170,12 @@ namespace Biocrowds.Core
             //draw line to goal
             for (int i = 0; i < _navMeshPath.corners.Length - 1; i++)
                 Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red);
+
+            //Check Distance to Goal
+            if(_isLeavingLevel && Vector3.Distance(this.transform.position, _goalPosition) <= 0.1f)
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         //clear agent´s informations

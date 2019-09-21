@@ -327,6 +327,11 @@ namespace Biocrowds.Core
             }
         }
 
+        public void RemoveAgentFromList(Agent agentDestroyed)
+        {
+            _agents.Remove(agentDestroyed);
+        }
+
         private void SetDoctorBehaviors(ref Agent newAgent)
         {
             if (SaveManager.currentProgress.timeSpentNearDog <= _timeSpentNearDogThreshold)

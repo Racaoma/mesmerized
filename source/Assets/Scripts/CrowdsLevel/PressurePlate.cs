@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
-    public bool isEmpty = true;
+    public bool isEmpty
+    {
+        get
+        {
+            return _agents.Count == 0 && !_isCharacterStanding;
+        }
+    }
 
     [SerializeField] private Material _greenMaterial;
     [SerializeField] private Material _redMaterial;
     [SerializeField] private GameObject _line;
     [SerializeField] private Animator _doorAnimator;
+    [SerializeField] private Transform _doorExitPoint;
 
     private MeshRenderer _meshRenderer;
-    private int _contacts = 0;
+    private List<Biocrowds.Core.Agent> _agents = new List<Biocrowds.Core.Agent>();
+    private bool _isCharacterStanding = false;
 
     private void Start()
     {
@@ -27,20 +35,33 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _contacts++;
-        UpdateMaterial(isEmpty = _contacts == 0);
-
         Biocrowds.Core.Agent agent = other.GetComponent<Biocrowds.Core.Agent>();
-        if(agent != null)
+        if (agent != null)
         {
             agent.CheckStop(this);
+            _agents.Add(agent);
         }
+        else if(other.GetComponent<CharacterBehaviour>())
+        {
+            _isCharacterStanding = true;
+        }
+
+        UpdateMaterial(isEmpty);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _contacts--;
-        UpdateMaterial(isEmpty = _contacts == 0);
+        Biocrowds.Core.Agent agent = other.GetComponent<Biocrowds.Core.Agent>();
+        if (agent != null)
+        {
+            _agents.Remove(agent);
+        }
+        else if (other.GetComponent<CharacterBehaviour>())
+        {
+            _isCharacterStanding = false;
+        }
+
+        UpdateMaterial(isEmpty);
     }
 
     private void UpdateMaterial(bool isEmpty)
@@ -67,6 +88,14 @@ public class PressurePlate : MonoBehaviour
 
     public void SetDoorState(bool state)
     {
+        if(state)
+        {
+            foreach(Biocrowds.Core.Agent agent in _agents)
+            {
+                agent.SetExitGoal(_doorExitPoint.position);
+            }
+        }
+
         _doorAnimator.SetBool("Open", state);
     }
 }
