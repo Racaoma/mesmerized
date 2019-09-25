@@ -15,7 +15,6 @@ namespace Biocrowds.Core
     public class Agent : MonoBehaviour
     {
         //New Vars
-        private float _rangeRandomGoal = 1f;
         public Vector3 agentOffset;
 
         private const float UPDATE_NAVMESH_INTERVAL = 1.0f;
@@ -86,6 +85,7 @@ namespace Biocrowds.Core
         public bool fearComputer = false;
         public float speedMultiplier = 1f;
         public float maxDelayToWalk = 2f;
+        private float _rangeRandomGoal = 1f;
 
         void Start()
         {
@@ -121,8 +121,16 @@ namespace Biocrowds.Core
 
         public void SetExitGoal(Vector3 position)
         {
+            Goal.OnDoorClose += CancelExitGoal;
             _isLeavingLevel = true;
             _goalPosition = position;
+        }
+
+        private void CancelExitGoal()
+        {
+            Goal.OnDoorClose -= CancelExitGoal;
+            _isLeavingLevel = false;
+            _goalPosition = Goal.GetRandomPositionInside(_rangeRandomGoal);
         }
 
         public PressurePlate GetCurrentPressurePlate()
@@ -172,8 +180,9 @@ namespace Biocrowds.Core
                 Debug.DrawLine(_navMeshPath.corners[i], _navMeshPath.corners[i + 1], Color.red);
 
             //Check Distance to Goal
-            if(_isLeavingLevel && Vector3.Distance(this.transform.position, _goalPosition) <= 0.1f)
+            if(_isLeavingLevel && Vector3.Distance(this.transform.position, _goalPosition) <= 0.2f)
             {
+                Goal.OnDoorClose -= CancelExitGoal;
                 Destroy(this.gameObject);
             }
         }

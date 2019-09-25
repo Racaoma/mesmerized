@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
+    public delegate void OnDoorCloseHandler();
+    public event OnDoorCloseHandler OnDoorClose;
+
     public bool isEmpty
     {
         get
@@ -86,14 +89,19 @@ public class PressurePlate : MonoBehaviour
         }
     }
 
+
     public void SetDoorState(bool state)
     {
-        if(state)
+        if (state)
         {
             foreach(Biocrowds.Core.Agent agent in _agents)
             {
                 agent.SetExitGoal(_doorExitPoint.position);
             }
+        }
+        else
+        {
+            OnDoorClose?.Invoke();
         }
 
         _doorAnimator.SetBool("Open", state);

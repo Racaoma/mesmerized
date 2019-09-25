@@ -93,6 +93,9 @@ namespace Biocrowds.Core
         private int _maxAuxins;
         private bool _isReady;
 
+        [SerializeField] private GameObject[] _flowArrows;
+        private const float _speedArrow = 100f;
+
         // Use this for initialization
         private void Start()
         {
@@ -117,6 +120,18 @@ namespace Biocrowds.Core
 
             //wait a little bit to start moving
             _isReady = true;
+        }
+
+        public void InvertFlow()
+        {
+            if(movementFlow == MovementFlowEnum.Clockwise)
+            {
+                movementFlow = MovementFlowEnum.Counterclockwise;
+            }
+            else
+            {
+                movementFlow = MovementFlowEnum.Clockwise;
+            }
         }
 
         private void CreateCells()
@@ -236,7 +251,7 @@ namespace Biocrowds.Core
             for (int i = 0; i < _maxAgents_Deliveryman; i++)
             {
                 int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
-                Agent newAgent = Instantiate(_agentPrefab_Deliveryman, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                Agent newAgent = Instantiate(_agentPrefab_Deliveryman, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
                 newAgent.dogFear = true;
@@ -261,7 +276,7 @@ namespace Biocrowds.Core
             for (int i = 0; i < _maxAgents_Security; i++)
             {
                 int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
-                Agent newAgent = Instantiate(_agentPrefab_Security, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                Agent newAgent = Instantiate(_agentPrefab_Security, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
                 newAgent.dogFear = false;
@@ -286,7 +301,7 @@ namespace Biocrowds.Core
             for (int i = 0; i < _maxAgents_Operator; i++)
             {
                 int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
-                Agent newAgent = Instantiate(_agentPrefab_Operator, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                Agent newAgent = Instantiate(_agentPrefab_Operator, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
                 newAgent.dogFear = false;
@@ -311,7 +326,7 @@ namespace Biocrowds.Core
             for (int i = 0; i < _maxAgents_Doctor; i++)
             {
                 int pressurePlateIndex = Random.Range(0, pressurePlates.Length);
-                Agent newAgent = Instantiate(_agentPrefab_Doctor, pressurePlates[pressurePlateIndex].transform.position, Quaternion.identity, agentPool);
+                Agent newAgent = Instantiate(_agentPrefab_Doctor, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
                 SetDoctorBehaviors(ref newAgent);
@@ -445,6 +460,22 @@ namespace Biocrowds.Core
                 }
 
                 currentRoundTimer = roundTime;
+            }
+
+            //Rotate
+            Vector3 targetRotation;
+            if (movementFlow == MovementFlowEnum.Clockwise)
+            {
+                targetRotation = Vector3.zero;
+            }
+            else
+            {
+                targetRotation = new Vector3(0, 0, 180);
+            }
+
+            foreach (GameObject arrow in _flowArrows)
+            {
+                arrow.transform.localEulerAngles = Vector3.MoveTowards(arrow.transform.localEulerAngles, targetRotation, Time.deltaTime * _speedArrow);
             }
 
             //reset auxins
