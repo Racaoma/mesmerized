@@ -96,6 +96,8 @@ namespace Biocrowds.Core
         [SerializeField] private GameObject[] _flowArrows;
         private const float _speedArrow = 100f;
 
+        [SerializeField] private GameObject[] _inverterLevers;
+
         // Use this for initialization
         private void Start()
         {
@@ -127,10 +129,14 @@ namespace Biocrowds.Core
             if(movementFlow == MovementFlowEnum.Clockwise)
             {
                 movementFlow = MovementFlowEnum.Counterclockwise;
+                _inverterLevers[0].transform.localEulerAngles = new Vector3(-90, 180, 90);
+                _inverterLevers[1].transform.localEulerAngles = new Vector3(-90, 180, 90);
             }
             else
             {
                 movementFlow = MovementFlowEnum.Clockwise;
+                _inverterLevers[0].transform.localEulerAngles = new Vector3(-90, 0, 90);
+                _inverterLevers[1].transform.localEulerAngles = new Vector3(-90, 0, 90);
             }
         }
 
