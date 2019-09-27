@@ -35,7 +35,7 @@ public class InventoryObjectBehaviour : MonoBehaviour
         }
     }
 
-    private void GetItem(CharacterBehaviour character)
+    public void GetItem(CharacterBehaviour character)
     {
         character.DisableNavegation();
         character.SetRotation(lookPosition);
