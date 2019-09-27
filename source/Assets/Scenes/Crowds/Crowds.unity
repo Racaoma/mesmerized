@@ -2017,6 +2017,10 @@ MonoBehaviour:
   grid: {fileID: 1908386819}
   executeRotation: 0
   _movementController: {fileID: 1696769823}
+  robotGameObject: {fileID: 1735035318}
+  machineGameObject: {fileID: 342706887}
+  dogGameObject: {fileID: 830153177}
+  lampGameObject: {fileID: 196490690}
 --- !u!65 &142658091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5090,6 +5094,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 339833890}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &342706887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4c430723415446242a81806c558910ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 2104135370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &350584923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6655,6 +6665,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 005852f90b73b924bbb1ad6dbf83e615,
     type: 3}
   m_PrefabInstance: {fileID: 531006798}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &533145065 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4c430723415446242a81806c558910ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 290794956}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &534779594
 GameObject:
@@ -19060,6 +19076,10 @@ MonoBehaviour:
   grid: {fileID: 1908386819}
   executeRotation: 0
   _movementController: {fileID: 1696769823}
+  robotGameObject: {fileID: 614062518}
+  machineGameObject: {fileID: 1773056554}
+  dogGameObject: {fileID: 1506748091}
+  lampGameObject: {fileID: 45163723}
 --- !u!65 &988951794
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21235,6 +21255,10 @@ MonoBehaviour:
   grid: {fileID: 1908386819}
   executeRotation: 0
   _movementController: {fileID: 1696769823}
+  robotGameObject: {fileID: 328001388}
+  machineGameObject: {fileID: 1990253867}
+  dogGameObject: {fileID: 1704902800}
+  lampGameObject: {fileID: 120859677}
 --- !u!65 &1161067373
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31211,6 +31235,10 @@ MonoBehaviour:
   grid: {fileID: 1908386819}
   executeRotation: 0
   _movementController: {fileID: 1696769823}
+  robotGameObject: {fileID: 1095888340}
+  machineGameObject: {fileID: 533145065}
+  dogGameObject: {fileID: 516582495}
+  lampGameObject: {fileID: 1437104967}
 --- !u!65 &1512591691
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31370,6 +31398,10 @@ MonoBehaviour:
   grid: {fileID: 1908386819}
   executeRotation: 0
   _movementController: {fileID: 1696769823}
+  robotGameObject: {fileID: 1153765967}
+  machineGameObject: {fileID: 1736119660}
+  dogGameObject: {fileID: 1566476918}
+  lampGameObject: {fileID: 612927380}
 --- !u!65 &1520251511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34120,6 +34152,12 @@ Transform:
   m_Father: {fileID: 784425347}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1736119660 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4c430723415446242a81806c558910ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 635928091}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1741977581
 GameObject:
   m_ObjectHideFlags: 0
@@ -34492,6 +34530,10 @@ MonoBehaviour:
   grid: {fileID: 1908386819}
   executeRotation: 0
   _movementController: {fileID: 1696769823}
+  robotGameObject: {fileID: 1287898208}
+  machineGameObject: {fileID: 1934024259}
+  dogGameObject: {fileID: 4544871931490958057}
+  lampGameObject: {fileID: 332791493}
 --- !u!65 &1752098714
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34864,6 +34906,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac603fe5fc57ea649a32dc5bd127d59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1773056554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4c430723415446242a81806c558910ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 1827487646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1774845935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36941,6 +36989,12 @@ Transform:
   m_Father: {fileID: 1777196659}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1934024259 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4c430723415446242a81806c558910ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 923273490}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1940358183
 GameObject:
   m_ObjectHideFlags: 0
@@ -37586,6 +37640,12 @@ Transform:
   m_Father: {fileID: 784425347}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1990253867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4c430723415446242a81806c558910ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329386096}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1994228047
 PrefabInstance:
   m_ObjectHideFlags: 0
