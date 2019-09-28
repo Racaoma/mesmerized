@@ -20,6 +20,7 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private GameObject _line;
     [SerializeField] private Animator _doorAnimator;
     [SerializeField] private Transform _doorExitPoint;
+    [SerializeField] private Pedestal _pedestal;
 
     private MeshRenderer _meshRenderer;
     private List<Biocrowds.Core.Agent> _agents = new List<Biocrowds.Core.Agent>();
@@ -34,6 +35,11 @@ public class PressurePlate : MonoBehaviour
     {
         Vector3 randomPosition = Random.insideUnitSphere * range;
         return new Vector3(this.transform.position.x + randomPosition.x, this.transform.position.y, this.transform.position.z + randomPosition.z);
+    }
+
+    public Pedestal.PressurePlateActiveItemEnum GetPressurePlateActiveItem()
+    {
+        return _pedestal.GetActiveItem();
     }
 
     private void OnTriggerEnter(Collider other)

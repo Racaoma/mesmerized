@@ -262,7 +262,7 @@ namespace Biocrowds.Core
 
                 newAgent.dogFear = true;
                 newAgent.attractedToComputer = false;
-                newAgent.attractedToComputer = false;
+                newAgent.fearRobot = false;
                 newAgent.attractedToMachine = false;
                 newAgent.attractedToLamp = false;
                 newAgent.speedMultiplier = 1f;
@@ -287,7 +287,7 @@ namespace Biocrowds.Core
 
                 newAgent.dogFear = false;
                 newAgent.attractedToComputer = false;
-                newAgent.attractedToComputer = false;
+                newAgent.fearRobot = false;
                 newAgent.attractedToMachine = false;
                 newAgent.attractedToLamp = true;
                 newAgent.speedMultiplier = 1f;
@@ -312,7 +312,7 @@ namespace Biocrowds.Core
 
                 newAgent.dogFear = false;
                 newAgent.attractedToComputer = false;
-                newAgent.attractedToComputer = true;
+                newAgent.fearRobot = true;
                 newAgent.attractedToMachine = true;
                 newAgent.attractedToLamp = false;
                 newAgent.speedMultiplier = 1f;
@@ -398,12 +398,12 @@ namespace Biocrowds.Core
             if (SaveManager.currentProgress.buttonPuzzleButtonUses <= _parButtonUsesThreshold)
             {
                 newAgent.attractedToComputer = true;
-                newAgent.fearComputer = false;
+                newAgent.fearRobot = false;
             }
             else
             {
                 newAgent.attractedToComputer = false;
-                newAgent.fearComputer = false;
+                newAgent.fearRobot = false;
             }
 
             if (SaveManager.currentProgress.machineExplosionsTriggered <= _machineExplosionsTriggeredThreshold)

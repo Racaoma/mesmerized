@@ -82,7 +82,7 @@ namespace Biocrowds.Core
         public bool attractedToComputer = false;
         public bool attractedToMachine = false;
         public bool attractedToLamp = false;
-        public bool fearComputer = false;
+        public bool fearRobot = false;
         public float speedMultiplier = 1f;
         public float maxDelayToWalk = 2f;
         private float _rangeRandomGoal = 1f;
@@ -105,6 +105,26 @@ namespace Biocrowds.Core
         {
             if(pressurePlate == Goal)
             {
+                Pedestal.PressurePlateActiveItemEnum activeItem = pressurePlate.GetPressurePlateActiveItem();
+                if (activeItem == Pedestal.PressurePlateActiveItemEnum.Dog && dogFear)
+                {
+                    SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
+                    extraChanceToStop += 1f - baseChanceToStop;
+                }
+                else if(activeItem == Pedestal.PressurePlateActiveItemEnum.Lamp && attractedToLamp)
+                {
+                    return;
+                }
+                else if (activeItem == Pedestal.PressurePlateActiveItemEnum.Machine && attractedToMachine)
+                {
+                    return;
+                }
+                else if (activeItem == Pedestal.PressurePlateActiveItemEnum.Robot && fearRobot)
+                {
+                    SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
+                    extraChanceToStop += 1f - baseChanceToStop;
+                }
+
                 if (Random.Range(extraChanceToStop, 1f) <= baseChanceToStop)
                 {
                     SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
