@@ -82,6 +82,7 @@ namespace Biocrowds.Core
         private Auxin _auxinPrefab;
 
         List<Agent> _agents = new List<Agent>();
+        CharacterAgent _character;
         List<Cell> _cells = new List<Cell>();
 
         public List<Cell> Cells
@@ -101,6 +102,8 @@ namespace Biocrowds.Core
         // Use this for initialization
         private void Start()
         {
+            _character = FindObjectOfType<CharacterAgent>();
+
             currentRoundTimer = roundTime;
 
             //Application.runInBackground = true;
@@ -116,6 +119,8 @@ namespace Biocrowds.Core
 
             //create our agents
             CreateAgents();
+
+            _character.CurrentCell = _cells[0];
 
             //build the navmesh at runtime
             //NavMeshBuilder.BuildNavMesh();
@@ -493,6 +498,8 @@ namespace Biocrowds.Core
             for (int i = 0; i < _agents.Count; i++)
                 _agents[i].FindNearAuxins();
 
+            _character.FindNearAuxins();
+
             /*
              * to find where the agent must move, we need to get the vectors from the agent to each auxin he has, and compare with 
              * the vector from agent to goal, generating a angle which must lie between 0 (best case) and 180 (worst case)
@@ -505,10 +512,11 @@ namespace Biocrowds.Core
             4 - step
             */
 
+            List<Auxin> agentAuxins;
             for (int i = 0; i < _agents.Count; i++)
             {
                 //find the agent
-                List<Auxin> agentAuxins = _agents[i].Auxins;
+                agentAuxins = _agents[i].Auxins;
 
                 //vector for each auxin
                 for (int j = 0; j < agentAuxins.Count; j++)
@@ -527,6 +535,26 @@ namespace Biocrowds.Core
                 //step
                 _agents[i].Step();
             }
+
+            //find the agent
+            agentAuxins = _character.Auxins;
+
+            //vector for each auxin
+            for (int j = 0; j < agentAuxins.Count; j++)
+            {
+                //add the distance vector between it and the agent
+                _character._distAuxin.Add(agentAuxins[j].Position - _character.transform.position);
+
+                //just draw the lines to each auxin
+                Debug.DrawLine(agentAuxins[j].Position, _character.transform.position, Color.green);
+            }
+
+            //calculate the movement vector
+            _character.CalculateDirection();
+            //calculate speed vector
+            _character.CalculateVelocity();
+            //step
+            _character.Step();
         }
     }
 }

@@ -9622,6 +9622,10 @@ PrefabInstance:
       propertyPath: inventaryCenter
       value: 
       objectReference: {fileID: 1452637675}
+    - target: {fileID: 1096371232, guid: ff0151261dd8ed0478cdf5d54ac6cdb1, type: 3}
+      propertyPath: useBioCrowds
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4300158490982185806, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9691,6 +9695,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698173505130409765, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698173505130409765, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
+        type: 3}
+      propertyPath: agentRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698173505130409765, guid: ff0151261dd8ed0478cdf5d54ac6cdb1,
+        type: 3}
+      propertyPath: _maxSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff0151261dd8ed0478cdf5d54ac6cdb1, type: 3}

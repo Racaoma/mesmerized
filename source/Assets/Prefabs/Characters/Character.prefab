@@ -20263,6 +20263,7 @@ GameObject:
   - component: {fileID: 1096371231}
   - component: {fileID: 1096371232}
   - component: {fileID: 962260708}
+  - component: {fileID: 3698173505130409765}
   - component: {fileID: 3559971161712663734}
   m_Layer: 14
   m_Name: Character
@@ -20358,6 +20359,7 @@ MonoBehaviour:
   rotationSpeed: 10
   targetToRotation: {fileID: 0}
   specialCompleteItem: {fileID: 0}
+  useBioCrowds: 0
   _navMeshAgent: {fileID: 0}
 --- !u!95 &962260708
 Animator:
@@ -20378,6 +20380,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3698173505130409765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300158490982185843}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b235edd9c289864296ce8e4f2201fb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentOffset: {x: 0, y: 0, z: 0}
+  agentRadius: 0
+  _velocity: {x: 0, y: 0, z: 0}
+  _maxSpeed: 1.5
+  _distAuxin: []
+  baseChanceToStop: 0.5
+  extraChanceToStop: 0
+  dogFear: 0
+  attractedToComputer: 0
+  attractedToMachine: 0
+  attractedToLamp: 0
+  fearRobot: 0
+  speedMultiplier: 1
+  maxDelayToWalk: 2
+  agentRadius: 0
+  _velocity: {x: 0, y: 0, z: 0}
+  _maxSpeed: 1.5
+  Goal: {x: 0, y: 0, z: 0}
+  _distAuxin: []
 --- !u!81 &3559971161712663734
 AudioListener:
   m_ObjectHideFlags: 0

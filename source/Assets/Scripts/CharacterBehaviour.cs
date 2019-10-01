@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Biocrowds.Core;
 
 public class CharacterBehaviour : MonoBehaviour
 {
@@ -17,16 +18,33 @@ public class CharacterBehaviour : MonoBehaviour
     public GameObject specialCompleteItem;
     private Quaternion _lookRotation;
 
+    public bool useBioCrowds = false;
+
     //Control Variables
     private FSMController _FSMController;
     public NavMeshAgent _navMeshAgent;
+    private CharacterAgent _agent;
     private bool isIdle = false;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.updateRotation = true;
+        _agent = GetComponent<CharacterAgent>();
+
+        if (useBioCrowds)
+        {
+            _agent.enabled = true;
+            _navMeshAgent.enabled = false;
+        }
+        else
+        {
+            _navMeshAgent.updateRotation = true;
+            _agent.enabled = false;
+            _navMeshAgent.enabled = true;
+        }
+
+        animator = GetComponent<Animator>();
+
         if (specialCompleteItem != null)
             specialCompleteItem.SetActive(false);
     }
@@ -39,7 +57,11 @@ public class CharacterBehaviour : MonoBehaviour
 
     public bool IsStoped()
     {
-        return transform.position == _navMeshAgent.destination;
+        if(useBioCrowds)
+        {
+            return Vector3.Distance(_agent.GoalPosition, _agent.transform.position) <= 0.1f;
+        }
+        else return transform.position == _navMeshAgent.destination;
     }
 
     public void ActivateSpecialItem()
@@ -58,28 +80,51 @@ public class CharacterBehaviour : MonoBehaviour
         if (!_FSMController.LockedByInteraction)
         {
             isIdle = false;
-            _navMeshAgent.destination = position;
-            _navMeshAgent.isStopped = false;
+
+            if(useBioCrowds)
+            {
+                _agent.GoalPosition = position;
+            }
+            else
+            {
+                _navMeshAgent.destination = position;
+                _navMeshAgent.isStopped = false;
+            }
+            
             _FSMController.SetNextState(GameEnums.FSMInteractionEnum.Moving);
         } 
     }
 
     public void DisableNavegation()
     {
-        _navMeshAgent.enabled = false;
+        if(useBioCrowds)
+        {
+            _agent.enabled = false;
+        }
+        else
+        {
+            _navMeshAgent.enabled = false;
+        }
     }
-
 
     public void EnableNavegation()
     {
-
-        _navMeshAgent.enabled = true;
+        if (useBioCrowds)
+        {
+            _agent.enabled = true;
+        }
+        else
+        {
+            _navMeshAgent.enabled = true;
+        }
     }
-
 
     public void SetNavMeshStopped(bool status)
     {
-        _navMeshAgent.isStopped = status;
+        if(!useBioCrowds)
+        {
+            _navMeshAgent.isStopped = status;
+        }
     }
 
     public bool CheckInventaryObjectOnSelectedPosition(string name)

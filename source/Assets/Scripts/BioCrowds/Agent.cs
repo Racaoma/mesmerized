@@ -17,7 +17,7 @@ namespace Biocrowds.Core
         //New Vars
         public Vector3 agentOffset;
 
-        private const float UPDATE_NAVMESH_INTERVAL = 1.0f;
+        protected const float UPDATE_NAVMESH_INTERVAL = 1.0f;
 
         //agent radius
         public float agentRadius;
@@ -25,14 +25,14 @@ namespace Biocrowds.Core
         public Vector3 _velocity;
         //max speed
         [SerializeField]
-        private float _maxSpeed = 1.5f;
+        protected float _maxSpeed = 1.5f;
 
         //goal
         private PressurePlate Goal;
         private bool _isLeavingLevel = false;
 
         //list with all auxins in his personal space
-        private List<Auxin> _auxins = new List<Auxin>();
+        protected List<Auxin> _auxins = new List<Auxin>();
         public List<Auxin> Auxins
         {
             get { return _auxins; }
@@ -40,36 +40,36 @@ namespace Biocrowds.Core
         }
 
         //agent cell
-        private Cell _currentCell;
+        protected Cell _currentCell;
         public Cell CurrentCell
         {
             get { return _currentCell; }
             set { _currentCell = value; }
         }
 
-        private World _world;
+        protected World _world;
         public World World
         {
             get { return _world; }
             set { _world = value; }
         }
 
-        private int _totalX;
-        private int _totalZ;
+        protected int _totalX;
+        protected int _totalZ;
 
-        private NavMeshPath _navMeshPath;
+        protected NavMeshPath _navMeshPath;
 
         //time elapsed (to calculate path just between an interval of time)
-        private float _elapsedTime;
+        protected float _elapsedTime;
         //auxins distance vector from agent
         public List<Vector3> _distAuxin;
 
         /*-----------Paravisis' model-----------*/
-        private bool _isDenW = false; //  avoid recalculation
-        private float _denW;    //  avoid recalculation
-        private Vector3 _rotation; //orientation vector (movement)
-        private Vector3 _goalPosition; //goal position
-        private Vector3 _dirAgentGoal; //diff between goal and agent
+        protected bool _isDenW = false; //  avoid recalculation
+        protected float _denW;    //  avoid recalculation
+        protected Vector3 _rotation; //orientation vector (movement)
+        protected Vector3 _goalPosition; //goal position
+        protected Vector3 _dirAgentGoal; //diff between goal and agent
 
         //Chance to stop
         public float baseChanceToStop = 0.5f;
@@ -87,7 +87,7 @@ namespace Biocrowds.Core
         public float maxDelayToWalk = 2f;
         private float _rangeRandomGoal = 1f;
 
-        void Start()
+        protected virtual void Start()
         {
             _navMeshPath = new NavMeshPath();
 
@@ -172,7 +172,7 @@ namespace Biocrowds.Core
             _dirAgentGoal = _goalPosition - transform.position;
         }
 
-        void Update()
+        protected virtual void Update()
         {
             //clear agent´s information
             ClearAgent();
@@ -208,7 +208,7 @@ namespace Biocrowds.Core
         }
 
         //clear agent´s informations
-        void ClearAgent()
+        protected void ClearAgent()
         {
             //re-set inicial values
             _denW = 0;
@@ -246,7 +246,7 @@ namespace Biocrowds.Core
         }
 
         //calculate W
-        float CalculaW(int indiceRelacao)
+        protected float CalculaW(int indiceRelacao)
         {
             //calculate F (F is part of weight formula)
             float fVal = GetF(indiceRelacao);
@@ -268,7 +268,7 @@ namespace Biocrowds.Core
         }
 
         //calculate F (F is part of weight formula)
-        float GetF(int pRelationIndex)
+        protected float GetF(int pRelationIndex)
         {
             //distance between auxin´s distance and origin 
             float Ymodule = Vector3.Distance(_distAuxin[pRelationIndex], Vector3.zero);
@@ -347,7 +347,7 @@ namespace Biocrowds.Core
             FindCell();
         }
 
-        private void FindCell()
+        protected void FindCell()
         {
             //distance from agent to cell, to define agent new cell
             float distanceToCellSqr = (transform.position - _currentCell.transform.position).sqrMagnitude; //Vector3.Distance(transform.position, _currentCell.transform.position);
@@ -382,7 +382,7 @@ namespace Biocrowds.Core
 
         }
 
-        private void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
+        protected void CheckAuxins(ref float pDistToCellSqr, Cell pCell)
         {
             //get all auxins on neighbourcell
             List<Auxin> cellAuxins = pCell.Auxins;
