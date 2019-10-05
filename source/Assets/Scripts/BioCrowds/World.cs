@@ -355,7 +355,10 @@ namespace Biocrowds.Core
 
         public void RemoveAgentFromList(Agent agentDestroyed)
         {
-            _agents.Remove(agentDestroyed);
+            if(_agents.Contains(agentDestroyed))
+            {
+                _agents.Remove(agentDestroyed);
+            }
         }
 
         private void SetDoctorBehaviors(ref Agent newAgent)
