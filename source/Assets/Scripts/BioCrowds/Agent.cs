@@ -75,7 +75,8 @@ namespace Biocrowds.Core
         public float baseChanceToStop = 0.5f;
         public float extraChanceToStop = 0f;
 
-        private const float extraChanceToStopAfterNotStopping = 0.5f;
+        private const float _extraChanceToStopAfterNotStopping = 0.5f;
+        private const float _distanceToStopMovementAnimation = 0.005f;
 
         //Patterns
         public bool dogFear = false;
@@ -87,9 +88,15 @@ namespace Biocrowds.Core
         public float maxDelayToWalk = 2f;
         private float _rangeRandomGoal = 1f;
 
+        //Other Variables
+        private Animator _animator;
+        private Vector3 _lastPosition;
+
         protected virtual void Start()
         {
+            _animator = GetComponentInChildren<Animator>();
             _navMeshPath = new NavMeshPath();
+            _lastPosition = this.transform.position;
 
             //cache world info
             _totalX = Mathf.FloorToInt(_world.Dimension.x / 2.0f) - 1;
@@ -98,7 +105,10 @@ namespace Biocrowds.Core
 
         private void OnDestroy()
         {
-            World.Instance.RemoveAgentFromList(this);
+            if(World.Instance != null)
+            {
+                World.Instance.RemoveAgentFromList(this);
+            }
         }
 
         public void CheckStop(PressurePlate pressurePlate)
@@ -128,7 +138,7 @@ namespace Biocrowds.Core
                 if (Random.Range(extraChanceToStop, 1f) <= baseChanceToStop)
                 {
                     SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
-                    extraChanceToStop += extraChanceToStopAfterNotStopping;
+                    extraChanceToStop += _extraChanceToStopAfterNotStopping;
                 }
             }
         }
@@ -169,14 +179,26 @@ namespace Biocrowds.Core
 
             Goal = pressurePlate;
             _goalPosition = Goal.GetRandomPositionInside(_rangeRandomGoal) + agentOffset;
-            _dirAgentGoal = _goalPosition - transform.position;
+            _dirAgentGoal = this.transform.position - _goalPosition;
         }
 
         protected virtual void Update()
         {
             //clear agent´s information
             ClearAgent();
-            
+
+            if (Vector3.Distance(this.transform.position, _lastPosition) > _distanceToStopMovementAnimation)
+            {
+                _animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                _animator.SetBool("isWalking", false);
+            }
+
+            _lastPosition = this.transform.position;
+            this.transform.LookAt(_goalPosition);
+
             // Update the way to the goal every second.
             _elapsedTime += Time.deltaTime;
 
@@ -417,6 +439,11 @@ namespace Biocrowds.Core
                 pDistToCellSqr = distanceToNeighbourCell;
                 _currentCell = pCell;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawSphere(_goalPosition, 0.1f);
         }
     }
 }

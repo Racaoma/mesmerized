@@ -31431,21 +31431,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
-    - target: {fileID: 5339269897629462348, guid: f9e676c119cb72841b03f516e9dd9270,
-        type: 3}
-      propertyPath: _cameraBehaviour
-      value: 
-      objectReference: {fileID: 1772355229}
-    - target: {fileID: 5339269897629462348, guid: f9e676c119cb72841b03f516e9dd9270,
-        type: 3}
-      propertyPath: _raycaster
-      value: 
-      objectReference: {fileID: 643057326}
-    - target: {fileID: 5339269897629462348, guid: f9e676c119cb72841b03f516e9dd9270,
-        type: 3}
-      propertyPath: _eventSystem
-      value: 
-      objectReference: {fileID: 1231762622}
     - target: {fileID: 8795931739635011832, guid: f9e676c119cb72841b03f516e9dd9270,
         type: 3}
       propertyPath: _character
@@ -31506,6 +31491,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5339269897629462348, guid: f9e676c119cb72841b03f516e9dd9270,
+        type: 3}
+      propertyPath: _cameraBehaviour
+      value: 
+      objectReference: {fileID: 1772355229}
+    - target: {fileID: 5339269897629462348, guid: f9e676c119cb72841b03f516e9dd9270,
+        type: 3}
+      propertyPath: _raycaster
+      value: 
+      objectReference: {fileID: 643057326}
+    - target: {fileID: 5339269897629462348, guid: f9e676c119cb72841b03f516e9dd9270,
+        type: 3}
+      propertyPath: _eventSystem
+      value: 
+      objectReference: {fileID: 1231762622}
     - target: {fileID: 6010380753714873011, guid: f9e676c119cb72841b03f516e9dd9270,
         type: 3}
       propertyPath: cameraBehaviour
