@@ -20360,7 +20360,7 @@ MonoBehaviour:
   targetToRotation: {fileID: 0}
   specialCompleteItem: {fileID: 0}
   useBioCrowds: 0
-  _navMeshAgent: {fileID: 0}
+  _navMeshAgent: {fileID: 4300158490982185804}
 --- !u!95 &962260708
 Animator:
   serializedVersion: 3
@@ -20406,11 +20406,7 @@ MonoBehaviour:
   fearRobot: 0
   speedMultiplier: 1
   maxDelayToWalk: 2
-  agentRadius: 0
-  _velocity: {x: 0, y: 0, z: 0}
-  _maxSpeed: 1.5
-  Goal: {x: 0, y: 0, z: 0}
-  _distAuxin: []
+  GoalPosition: {x: 0, y: 0, z: 0}
 --- !u!81 &3559971161712663734
 AudioListener:
   m_ObjectHideFlags: 0
