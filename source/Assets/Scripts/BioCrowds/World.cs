@@ -59,8 +59,7 @@ namespace Biocrowds.Core
 
         //Behaviors
         private const float _timeSpentNearDogThreshold = 3f;
-        private const float _timeToCompleteAllLevelsThreshold = 2000f;
-        private const float _timeSpentNearClosedDoorThreshold = 5f;
+        private const float _timeToCompleteAllLevelsThreshold = 600f;
         private const int _parLeverUsesThreshold = 5;
         private const int _parButtonUsesThreshold = 8;
         private const int _machineExplosionsTriggeredThreshold = 5;
@@ -265,11 +264,10 @@ namespace Biocrowds.Core
                 Agent newAgent = Instantiate(_agentPrefab_Deliveryman, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
-                newAgent.dogFear = true;
-                newAgent.attractedToComputer = false;
-                newAgent.fearRobot = false;
-                newAgent.attractedToMachine = false;
-                newAgent.attractedToLamp = false;
+                newAgent.attitudeTowardDogs = AttitudeEnum.Fear;
+                newAgent.attitudeTowardRobots = AttitudeEnum.Indifferent;
+                newAgent.attitudeTowardMachines = AttitudeEnum.Indifferent;
+                newAgent.attitudeTowardLight = AttitudeEnum.Indifferent;
                 newAgent.speedMultiplier = 1f;
                 newAgent.baseChanceToStop = 0.5f;
                 newAgent.maxDelayToWalk = 2f;
@@ -290,11 +288,10 @@ namespace Biocrowds.Core
                 Agent newAgent = Instantiate(_agentPrefab_Security, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
-                newAgent.dogFear = false;
-                newAgent.attractedToComputer = false;
-                newAgent.fearRobot = false;
-                newAgent.attractedToMachine = false;
-                newAgent.attractedToLamp = true;
+                newAgent.attitudeTowardDogs = AttitudeEnum.Indifferent;
+                newAgent.attitudeTowardRobots = AttitudeEnum.Indifferent;
+                newAgent.attitudeTowardMachines = AttitudeEnum.Indifferent;
+                newAgent.attitudeTowardLight = AttitudeEnum.Attraction;
                 newAgent.speedMultiplier = 1f;
                 newAgent.baseChanceToStop = 0.5f;
                 newAgent.maxDelayToWalk = 2f;
@@ -315,11 +312,10 @@ namespace Biocrowds.Core
                 Agent newAgent = Instantiate(_agentPrefab_Operator, pressurePlates[pressurePlateIndex].GetRandomPositionInside(1f), Quaternion.identity, agentPool);
                 newAgent.transform.position += newAgent.agentOffset;
 
-                newAgent.dogFear = false;
-                newAgent.attractedToComputer = false;
-                newAgent.fearRobot = true;
-                newAgent.attractedToMachine = true;
-                newAgent.attractedToLamp = false;
+                newAgent.attitudeTowardDogs = AttitudeEnum.Indifferent;
+                newAgent.attitudeTowardRobots = AttitudeEnum.Fear;
+                newAgent.attitudeTowardMachines = AttitudeEnum.Attraction;
+                newAgent.attitudeTowardLight = AttitudeEnum.Indifferent;
                 newAgent.speedMultiplier = 1f;
                 newAgent.baseChanceToStop = 0.5f;
                 newAgent.maxDelayToWalk = 2f;
@@ -365,11 +361,15 @@ namespace Biocrowds.Core
         {
             if (SaveManager.currentProgress.timeSpentNearDog <= _timeSpentNearDogThreshold)
             {
-                newAgent.dogFear = false;
+                newAgent.attitudeTowardDogs = AttitudeEnum.Fear;
+            }
+            else if (SaveManager.currentProgress.timeSpentNearDog >= 3 * _timeSpentNearDogThreshold)
+            {
+                newAgent.attitudeTowardDogs = AttitudeEnum.Fear;
             }
             else
             {
-                newAgent.dogFear = true;
+                newAgent.attitudeTowardDogs = AttitudeEnum.Indifferent;
             }
 
             if (SaveManager.currentProgress.timeToCompleteAllLevels <= _timeToCompleteAllLevelsThreshold)
@@ -385,15 +385,6 @@ namespace Biocrowds.Core
                 newAgent.speedMultiplier = 0.5f;
             }
 
-            if (SaveManager.currentProgress.timeSpentNearClosedDoor <= _timeSpentNearClosedDoorThreshold)
-            {
-                newAgent.baseChanceToStop = 0.5f;
-            }
-            else
-            {
-                newAgent.baseChanceToStop = 0.65f;
-            }
-
             if(SaveManager.currentProgress.gatesPuzzleLeverUses <= _parLeverUsesThreshold)
             {
                 newAgent.maxDelayToWalk = 2f;
@@ -405,25 +396,27 @@ namespace Biocrowds.Core
 
             if (SaveManager.currentProgress.buttonPuzzleButtonUses <= _parButtonUsesThreshold)
             {
-                newAgent.attractedToComputer = true;
-                newAgent.fearRobot = false;
+                newAgent.attitudeTowardRobots = AttitudeEnum.Attraction;
+            }
+            else if(SaveManager.currentProgress.buttonPuzzleButtonUses >= 2 * _parButtonUsesThreshold)
+            {
+                newAgent.attitudeTowardRobots = AttitudeEnum.Fear;
             }
             else
             {
-                newAgent.attractedToComputer = false;
-                newAgent.fearRobot = false;
+                newAgent.attitudeTowardRobots = AttitudeEnum.Indifferent;
             }
 
             if (SaveManager.currentProgress.machineExplosionsTriggered <= _machineExplosionsTriggeredThreshold)
             {
-                newAgent.attractedToMachine = true;
+                newAgent.attitudeTowardMachines = AttitudeEnum.Attraction;
             }
             else
             {
-                newAgent.attractedToMachine = false;
+                newAgent.attitudeTowardMachines = AttitudeEnum.Indifferent;
             }
 
-            newAgent.attractedToLamp = false;
+            newAgent.attitudeTowardLight = AttitudeEnum.Indifferent;
         }
 
         public PressurePlate GetNextPressurePlate(PressurePlate currentPressurePlate)

@@ -12,6 +12,13 @@ using UnityEngine.AI;
 
 namespace Biocrowds.Core
 {
+    public enum AttitudeEnum
+    {
+        Indifferent,
+        Fear,
+        Attraction
+    }
+
     public class Agent : MonoBehaviour
     {
         //New Vars
@@ -79,11 +86,10 @@ namespace Biocrowds.Core
         private const float _distanceToStopMovementAnimation = 0.005f;
 
         //Patterns
-        public bool dogFear = false;
-        public bool attractedToComputer = false;
-        public bool attractedToMachine = false;
-        public bool attractedToLamp = false;
-        public bool fearRobot = false;
+        public AttitudeEnum attitudeTowardDogs = AttitudeEnum.Indifferent;
+        public AttitudeEnum attitudeTowardRobots = AttitudeEnum.Indifferent;
+        public AttitudeEnum attitudeTowardMachines = AttitudeEnum.Indifferent;
+        public AttitudeEnum attitudeTowardLight = AttitudeEnum.Indifferent;
         public float speedMultiplier = 1f;
         public float maxDelayToWalk = 2f;
         private float _rangeRandomGoal = 1f;
@@ -116,23 +122,30 @@ namespace Biocrowds.Core
             if(pressurePlate == Goal)
             {
                 Pedestal.PressurePlateActiveItemEnum activeItem = pressurePlate.GetPressurePlateActiveItem();
-                if (activeItem == Pedestal.PressurePlateActiveItemEnum.Dog && dogFear)
+                if (activeItem == Pedestal.PressurePlateActiveItemEnum.Dog && attitudeTowardDogs == AttitudeEnum.Fear)
                 {
                     SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
                     extraChanceToStop += 1f - baseChanceToStop;
                 }
-                else if(activeItem == Pedestal.PressurePlateActiveItemEnum.Lamp && attractedToLamp)
+                else if(activeItem == Pedestal.PressurePlateActiveItemEnum.Lamp && attitudeTowardLight == AttitudeEnum.Attraction)
                 {
                     return;
                 }
-                else if (activeItem == Pedestal.PressurePlateActiveItemEnum.Machine && attractedToMachine)
+                else if (activeItem == Pedestal.PressurePlateActiveItemEnum.Machine && attitudeTowardMachines == AttitudeEnum.Attraction)
                 {
                     return;
                 }
-                else if (activeItem == Pedestal.PressurePlateActiveItemEnum.Robot && fearRobot)
+                else if (activeItem == Pedestal.PressurePlateActiveItemEnum.Robot)
                 {
-                    SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
-                    extraChanceToStop += 1f - baseChanceToStop;
+                    if(attitudeTowardRobots == AttitudeEnum.Fear)
+                    {
+                        SetNextGoal(World.Instance.GetNextPressurePlate(Goal));
+                        extraChanceToStop += 1f - baseChanceToStop;
+                    }
+                    else if(attitudeTowardRobots == AttitudeEnum.Attraction)
+                    {
+                        return;
+                    }
                 }
 
                 if (Random.Range(extraChanceToStop, 1f) <= baseChanceToStop)

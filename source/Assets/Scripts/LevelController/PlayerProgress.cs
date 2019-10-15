@@ -12,7 +12,6 @@ public class PlayerProgress
     //Patterns
     public float timeSpentNearDog;
     public float timeToCompleteAllLevels;
-    public float timeSpentNearClosedDoor;
     public int gatesPuzzleLeverUses;
     public int buttonPuzzleButtonUses;
     public int machineExplosionsTriggered;
@@ -25,7 +24,6 @@ public class PlayerProgress
 
         timeSpentNearDog = 0f;
         timeToCompleteAllLevels = 0f;
-        timeSpentNearClosedDoor = 0f;
         gatesPuzzleLeverUses = 0;
         buttonPuzzleButtonUses = 0;
         machineExplosionsTriggered = 0;
